@@ -1,0 +1,445 @@
+ode_modules\@tact-lang\compiler\stdlib\stdlib.fc` `C:\Users\alex1\my-ton-project
+ode_modules\@tact-lang\compiler\stdlib\stdlib_ex.fc` `C:/Users/alex1/my-ton-project/build/addressManager/addressManager_AddressManager.code.fc` incl:`C:/Users/alex1/my-ton-project/build/addressManager/addressManager_AddressManager.headers.fc` incl:`C:/Users/alex1/my-ton-project/build/addressManager/addressManager_AddressManager.stdlib.fc` incl:`C:/Users/alex1/my-ton-project/build/addressManager/addressManager_AddressManager.constants.fc` incl:`C:/Users/alex1/my-ton-project/build/addressManager/addressManager_AddressManager.storage.fc` 
+PROGRAM{
+  DECLPROC __tact_verify_address
+  DECLPROC __tact_load_address
+  DECLPROC __tact_store_address
+  DECLPROC __tact_my_balance
+  DECLPROC __tact_not_null
+  DECLPROC __tact_context_get
+  DECLPROC __tact_context_get_sender
+  DECLPROC __tact_store_bool
+  DECLPROC __tact_slice_eq_bits
+  DECLPROC $Deploy$_load
+  DECLPROC $DeployOk$_store
+  DECLPROC $DeployOk$_store_cell
+  DECLPROC $SetAddress$_load
+  DECLPROC $AddressManager$_store
+  DECLPROC $AddressManager$_load
+  DECLPROC $StateInit$_not_null
+  DECLPROC $AddressState$_to_external
+  DECLPROC $AddressManager$init$_load
+  DECLPROC $AddressManager$_contract_init
+  DECLPROC $AddressManager$_contract_load
+  DECLPROC $AddressManager$_contract_store
+  DECLPROC $global_send
+  DECLPROC $AddressState$_constructor_name_addr
+  DECLPROC $AddressManager$_fun_state
+  DECLPROC $SendParameters$_constructor_bounce_to_value_mode_body_code_data
+  DECLPROC $AddressManager$_fun_forward
+  DECLPROC $AddressManager$_fun_notify
+  DECLPROC $DeployOk$_constructor_queryId
+  DECLPROC $AddressManager$_internal_binary_SetAddress
+  DECLPROC $AddressManager$_internal_binary_Deploy
+  77589 DECLMETHOD %state
+  113617 DECLMETHOD supported_interfaces
+  121275 DECLMETHOD get_abi_ipfs
+  115390 DECLMETHOD lazy_deployment_completed
+  DECLPROC $AddressManager$_contract_router_internal
+  DECLPROC recv_internal
+  DECLGLOBVAR __tact_context
+  DECLGLOBVAR __tact_context_sender
+  DECLGLOBVAR __tact_context_sys
+  DECLGLOBVAR __tact_randomized
+  __tact_verify_address PROCINLINE:<{
+    DUP
+    SBITS
+    267 PUSHINT
+    EQUAL
+    136 THROWIFNOT
+    DUP
+    11 PLDU
+    DUP
+    1279 PUSHINT
+    EQUAL
+    137 THROWIF
+    10 PUSHPOW2
+    EQUAL
+    136 THROWIFNOT
+  }>
+  __tact_load_address PROCINLINE:<{
+    LDMSGADDR
+    SWAP
+    __tact_verify_address INLINECALLDICT
+  }>
+  __tact_store_address PROCINLINE:<{
+    __tact_verify_address INLINECALLDICT
+    STSLICER
+  }>
+  __tact_my_balance PROCINLINE:<{
+    BALANCE
+    FIRST
+  }>
+  __tact_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+  }>
+  __tact_context_get PROCINLINE:<{
+    __tact_context GETGLOB
+    4 UNTUPLE
+  }>
+  __tact_context_get_sender PROCINLINE:<{
+    __tact_context_sender GETGLOB
+  }>
+  __tact_store_bool PROCINLINE:<{
+    SWAP
+    1 STI
+  }>
+  __tact_slice_eq_bits PROCINLINE:<{
+    SDEQ
+  }>
+  $Deploy$_load PROCINLINE:<{
+    32 LDU
+    SWAP
+    2490013878 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    64 LDU
+    SWAP
+  }>
+  $DeployOk$_store PROCINLINE:<{
+    2952335191 PUSHINT
+    ROT
+    32 STU
+    64 STU
+  }>
+  $DeployOk$_store_cell PROCINLINE:<{
+    NEWC
+    SWAP
+    $DeployOk$_store INLINECALLDICT
+    ENDC
+  }>
+  $SetAddress$_load PROCINLINE:<{
+    32 LDU
+    SWAP
+    1970989124 PUSHINT
+    EQUAL
+    129 THROWIFNOT
+    LDREF
+    SWAP
+    CTOS
+    SWAP
+    __tact_load_address INLINECALLDICT
+    s1 s2 XCHG
+  }>
+  $AddressManager$_store PROCINLINE:<{
+    s4 s3 XCHG2
+    __tact_store_address INLINECALLDICT
+    NEWC
+    ROT
+    STSLICER
+    ENDC
+    SWAP
+    STREF
+    ROT
+    __tact_store_address INLINECALLDICT
+    257 PUSHINT
+    STIX
+  }>
+  $AddressManager$_load PROCINLINE:<{
+    __tact_load_address INLINECALLDICT
+    SWAP
+    LDREF
+    SWAP
+    CTOS
+    SWAP
+    __tact_load_address INLINECALLDICT
+    SWAP
+    257 PUSHINT
+    LDIX
+    4 -ROLL
+  }>
+  $StateInit$_not_null PROCINLINE:<{
+    DUP
+    ISNULL
+    128 THROWIF
+    2 UNTUPLE
+  }>
+  $AddressState$_to_external PROCINLINE:<{
+  }>
+  $AddressManager$init$_load PROCINLINE:<{
+    __tact_load_address INLINECALLDICT
+    SWAP
+    257 PUSHINT
+    LDIX
+    -ROT
+  }>
+  $AddressManager$_contract_init PROCREF:<{
+    OVER
+    B{b5ee9c724101010100020000004cacb9cd} B>boc <s PUSHSLICE
+    2SWAP
+  }>
+  $AddressManager$_contract_load PROCREF:<{
+    c4 PUSH
+    CTOS
+    LDREF
+    SWAP
+    __tact_context_sys SETGLOB
+    1 LDI
+    SWAP
+    IFJMP:<{
+      $AddressManager$_load INLINECALLDICT
+      1 4 BLKDROP2
+    }>
+    MYADDR
+    11 PLDU
+    10 PUSHPOW2
+    EQUAL
+    137 THROWIFNOT
+    $AddressManager$init$_load INLINECALLDICT
+    s0 s2 XCHG
+    ENDS
+    SWAP
+    $AddressManager$_contract_init INLINECALLDICT
+  }>
+  $AddressManager$_contract_store PROCINLINE:<{
+    NEWC
+    __tact_context_sys GETGLOB
+    SWAP
+    STREF
+    TRUE
+    SWAP
+    1 STI
+    4 -ROLL
+    $AddressManager$_store INLINECALLDICT
+    ENDC
+    c4 POP
+  }>
+  $global_send PROCREF:<{
+    NEWC
+    1 PUSHINT
+    SWAP
+    2 STI
+    s0 s7 XCHG2
+    __tact_store_bool INLINECALLDICT
+    0 PUSHINT
+    SWAP
+    3 STI
+    s0 s5 XCHG2
+    __tact_store_address INLINECALLDICT
+    s0 s3 XCHG2
+    STGRAMS
+    0 PUSHINT
+    SWAP
+    105 STI
+    s3 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+    }>ELSE<{
+      s4 PUSH
+      ISNULL
+      NOT
+    }>
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      NEWC
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null INLINECALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      s4 PUSH
+      ISNULL
+      NOT
+      IF:<{
+        TRUE
+        __tact_store_bool INLINECALLDICT
+        s0 s4 XCHG
+        __tact_not_null INLINECALLDICT
+        s0 s4 XCHG2
+        STREF
+      }>ELSE<{
+        s4 POP
+        s0 s3 XCHG
+        FALSE
+        __tact_store_bool INLINECALLDICT
+      }>
+      FALSE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      s0 s2 XCHG
+      ENDC
+      ROT
+      STREF
+    }>ELSE<{
+      s3 POP
+      s3 POP
+      SWAP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    OVER
+    ISNULL
+    NOT
+    IF:<{
+      TRUE
+      __tact_store_bool INLINECALLDICT
+      SWAP
+      __tact_not_null INLINECALLDICT
+      SWAP
+      STREF
+    }>ELSE<{
+      NIP
+      FALSE
+      __tact_store_bool INLINECALLDICT
+    }>
+    ENDC
+    SWAP
+    SENDRAWMSG
+  }>
+  $AddressState$_constructor_name_addr PROCINLINE:<{
+  }>
+  $AddressManager$_fun_state PROCREF:<{
+    s2 s1 PUSH2
+    $AddressState$_constructor_name_addr INLINECALLDICT
+  }>
+  $SendParameters$_constructor_bounce_to_value_mode_body_code_data PROCINLINE:<{
+  }>
+  $AddressManager$_fun_forward PROCREF:<{
+    PUSHNULL
+    PUSHNULL
+    s2 PUSH
+    ISNULL
+    NOT
+    IF:<{
+      2DROP
+      $StateInit$_not_null INLINECALLDICT
+      SWAP
+    }>ELSE<{
+      s2 POP
+    }>
+    s2 s4 XCHG
+    0 PUSHINT
+    s0 s3 XCHG
+    s0 s4 XCHG
+    66 PUSHINT
+    s2 s3 XCHG2
+    $SendParameters$_constructor_bounce_to_value_mode_body_code_data INLINECALLDICT
+    $global_send INLINECALLDICT
+  }>
+  $AddressManager$_fun_notify PROCINLINE:<{
+    __tact_context_get_sender INLINECALLDICT
+    SWAP
+    FALSE
+    PUSHNULL
+    $AddressManager$_fun_forward INLINECALLDICT
+  }>
+  $DeployOk$_constructor_queryId PROCINLINE:<{
+  }>
+  $AddressManager$_internal_binary_SetAddress PROCINLINE:<{
+    s3 POP
+    s3 POP
+    24861 PUSHINT
+    __tact_context_get_sender INLINECALLDICT
+    s5 s(-1) PUXC
+    __tact_slice_eq_bits INLINECALLDICT
+    THROWANYIFNOT
+  }>
+  $AddressManager$_internal_binary_Deploy PROCINLINE:<{
+    $DeployOk$_constructor_queryId INLINECALLDICT
+    $DeployOk$_store_cell INLINECALLDICT
+    $AddressManager$_fun_notify INLINECALLDICT
+  }>
+  %state PROC:<{
+    $AddressManager$_contract_load INLINECALLDICT
+    $AddressManager$_fun_state INLINECALLDICT
+    4 2 BLKDROP2
+    $AddressState$_to_external INLINECALLDICT
+  }>
+  supported_interfaces PROC:<{
+    123515602279859691144772641439386770278 PUSHINT
+    209801025412363888721030803524359905849 PUSHINT
+    42980537499636128163026532310500881091 PUSHINT
+    209474421377847335869795010607481022628 PUSHINT
+  }>
+  get_abi_ipfs PROC:<{
+    x{697066733a2f2f516d584156776352535353513450484d7a7735764e4574737238634a766e53354c576338474838416b6f39473978} PUSHSLICE
+  }>
+  lazy_deployment_completed PROC:<{
+    c4 PUSH
+    CTOS
+    1 LDI
+    SWAP
+  }>
+  $AddressManager$_contract_router_internal PROCREF:<{
+    SWAP
+    IFJMP:<{
+      DROP
+      TRUE
+    }>
+    0 PUSHINT
+    OVER
+    SBITS
+    31 GTINT
+    IF:<{
+      DROP
+      DUP
+      32 PLDU
+    }>
+    DUP
+    1970989124 PUSHINT
+    EQUAL
+    IFJMP:<{
+      DROP
+      $SetAddress$_load INLINECALLDICT
+      1 2 BLKDROP2
+      $AddressManager$_internal_binary_SetAddress INLINECALLDICT
+      TRUE
+    }>
+    2490013878 PUSHINT
+    EQUAL
+    IFJMP:<{
+      $Deploy$_load INLINECALLDICT
+      NIP
+      $AddressManager$_internal_binary_Deploy INLINECALLDICT
+      TRUE
+    }>
+    DROP
+    FALSE
+  }>
+  recv_internal PROC:<{
+    SWAP
+    CTOS
+    4 LDU
+    SWAP
+    1 PUSHINT
+    AND
+    NEGATE
+    SWAP
+    LDMSGADDR
+    SWAP
+    __tact_verify_address INLINECALLDICT
+    s0 s4 s2 PUXCPU
+    s0 s3 XCHG
+    4 TUPLE
+    __tact_context SETGLOB
+    s0 s2 XCHG
+    __tact_context_sender SETGLOB
+    $AddressManager$_contract_load INLINECALLDICT
+    2 4 BLKSWAP
+    $AddressManager$_contract_router_internal INLINECALLDICT
+    130 THROWIFNOT
+    $AddressManager$_contract_store INLINECALLDICT
+  }>
+}END>c

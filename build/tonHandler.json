@@ -1,0 +1,39 @@
+{
+    "abi": {
+        "ABI version": 2,
+        "header": ["time", "expire"],
+        "functions": [
+            {
+                "name": "constructor",
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "id", "type": "int"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "setDelegation",
+                "inputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "delegate", "type": "address"},
+                    {"name": "weight", "type": "int"},
+                    {"name": "reason", "type": "string"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "getState",
+                "inputs": [],
+                "outputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "delegate", "type": "address"},
+                    {"name": "weight", "type": "int"},
+                    {"name": "reason", "type": "string"}
+                ]
+            }
+        ],
+        "data": [],
+        "events": []
+    },
+    "tvc": "te6ccgECEQEAAhEAAQHAAQEFoTQBU2SyHgICAgECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8AA..."
+}

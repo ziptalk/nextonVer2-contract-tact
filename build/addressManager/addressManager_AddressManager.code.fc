@@ -1,0 +1,130 @@
+#pragma version =0.4.4;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "addressManager_AddressManager.headers.fc";
+#include "addressManager_AddressManager.stdlib.fc";
+#include "addressManager_AddressManager.constants.fc";
+#include "addressManager_AddressManager.storage.fc";
+
+;;
+;; Contract AddressManager functions
+;;
+
+(slice, slice, slice, int) $AddressManager$_contract_init(slice $owner, int $id) impure inline_ref {
+    var (($self'owner, $self'name, $self'addr, $self'id)) = (null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'id = $id;
+    $self'name = __gen_slice_string_96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7();
+    $self'addr = $owner;
+    return ($self'owner, $self'name, $self'addr, $self'id);
+}
+
+((slice, slice, slice, int), (slice, slice)) $AddressManager$_fun_state((slice, slice, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'name, $self'addr, $self'id)) = $self;
+    return (($self'owner, $self'name, $self'addr, $self'id), $AddressState$_constructor_name_addr($self'name, $self'addr));
+}
+
+;;
+;; Receivers of a Contract AddressManager
+;;
+
+(((slice, slice, slice, int)), ()) $AddressManager$_internal_binary_SetAddress((slice, slice, slice, int) $self, (slice, slice) $msg) impure inline {
+    var ($self'owner, $self'name, $self'addr, $self'id) = $self;
+    var ($msg'name, $msg'addr) = $msg;
+    throw_unless(24861, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    $self'name = $msg'name;
+    $self'addr = $msg'addr;
+    return (($self'owner, $self'name, $self'addr, $self'id), ());
+}
+
+(((slice, slice, slice, int)), ()) $AddressManager$_internal_binary_Deploy((slice, slice, slice, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'name, $self'addr, $self'id) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'name, $self'addr, $self'id)~$AddressManager$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'name, $self'addr, $self'id), ());
+}
+
+;;
+;; Get methods of a Contract AddressManager
+;;
+
+_ %state() method_id(77589) {
+    var self = $AddressManager$_contract_load();
+    var res = self~$AddressManager$_fun_state();
+    return $AddressState$_to_external(res);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmXAVwcRSSSQ4PHMzw5vNEtsr8cJvnS5LWc8GH8Ako9G9x";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract AddressManager
+;;
+
+((slice, slice, slice, int), int) $AddressManager$_contract_router_internal((slice, slice, slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetAddress message
+    if (op == 1970989124) {
+        var msg = in_msg~$SetAddress$_load();
+        self~$AddressManager$_internal_binary_SetAddress(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$AddressManager$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $AddressManager$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$AddressManager$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $AddressManager$_contract_store(self);
+}

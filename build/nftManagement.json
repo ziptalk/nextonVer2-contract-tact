@@ -1,0 +1,41 @@
+{
+    "abi": {
+        "ABI version": 2,
+        "header": ["time", "expire"],
+        "functions": [
+            {
+                "name": "constructor",
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "id", "type": "int"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "setStake",
+                "inputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "amount", "type": "int"},
+                    {"name": "duration", "type": "int"},
+                    {"name": "metadata", "type": "string"},
+                    {"name": "uri", "type": "string"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "getState",
+                "inputs": [],
+                "outputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "amount", "type": "int"},
+                    {"name": "duration", "type": "int"},
+                    {"name": "metadata", "type": "string"},
+                    {"name": "uri", "type": "string"}
+                ]
+            }
+        ],
+        "data": [],
+        "events": []
+    },
+    "tvc": "te6ccgECEQEAAhEAAQHAAQEFoTQBU2SyHgICAgECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8AA..."
+}

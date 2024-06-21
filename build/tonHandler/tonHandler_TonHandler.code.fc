@@ -1,0 +1,134 @@
+#pragma version =0.4.4;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "tonHandler_TonHandler.headers.fc";
+#include "tonHandler_TonHandler.stdlib.fc";
+#include "tonHandler_TonHandler.constants.fc";
+#include "tonHandler_TonHandler.storage.fc";
+
+;;
+;; Contract TonHandler functions
+;;
+
+(slice, slice, slice, int, slice, int) $TonHandler$_contract_init(slice $owner, int $id) impure inline_ref {
+    var (($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id)) = (null(), null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'id = $id;
+    $self'user = $owner;
+    $self'delegate = $owner;
+    $self'weight = 0;
+    $self'reason = __gen_slice_string_96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7();
+    return ($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id);
+}
+
+((slice, slice, slice, int, slice, int), (slice, slice, int, slice)) $TonHandler$_fun_state((slice, slice, slice, int, slice, int) $self) impure inline_ref {
+    var (($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id)) = $self;
+    return (($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id), $DelegationState$_constructor_user_delegate_weight_reason($self'user, $self'delegate, $self'weight, $self'reason));
+}
+
+;;
+;; Receivers of a Contract TonHandler
+;;
+
+(((slice, slice, slice, int, slice, int)), ()) $TonHandler$_internal_binary_SetDelegation((slice, slice, slice, int, slice, int) $self, (slice, slice, int, slice) $msg) impure inline {
+    var ($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id) = $self;
+    var ($msg'user, $msg'delegate, $msg'weight, $msg'reason) = $msg;
+    throw_unless(24861, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    $self'user = $msg'user;
+    $self'delegate = $msg'delegate;
+    $self'weight = $msg'weight;
+    $self'reason = $msg'reason;
+    return (($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id), ());
+}
+
+(((slice, slice, slice, int, slice, int)), ()) $TonHandler$_internal_binary_Deploy((slice, slice, slice, int, slice, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id)~$TonHandler$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'user, $self'delegate, $self'weight, $self'reason, $self'id), ());
+}
+
+;;
+;; Get methods of a Contract TonHandler
+;;
+
+_ %state() method_id(77589) {
+    var self = $TonHandler$_contract_load();
+    var res = self~$TonHandler$_fun_state();
+    return $DelegationState$_to_external(res);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmQz2MQ8vxF6D55mt4zjybKjymM19a2VkJBmZn9wjbaVhw";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract TonHandler
+;;
+
+((slice, slice, slice, int, slice, int), int) $TonHandler$_contract_router_internal((slice, slice, slice, int, slice, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetDelegation message
+    if (op == 2121962565) {
+        var msg = in_msg~$SetDelegation$_load();
+        self~$TonHandler$_internal_binary_SetDelegation(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$TonHandler$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $TonHandler$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$TonHandler$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $TonHandler$_contract_store(self);
+}

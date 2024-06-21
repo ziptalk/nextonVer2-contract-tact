@@ -1,0 +1,37 @@
+{
+    "abi": {
+        "ABI version": 2,
+        "header": ["time", "expire"],
+        "functions": [
+            {
+                "name": "constructor",
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "id", "type": "int"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "setAccount",
+                "inputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "stTONAmount", "type": "int"},
+                    {"name": "usdtAmount", "type": "int"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "getState",
+                "inputs": [],
+                "outputs": [
+                    {"name": "user", "type": "address"},
+                    {"name": "stTONAmount", "type": "int"},
+                    {"name": "usdtAmount", "type": "int"}
+                ]
+            }
+        ],
+        "data": [],
+        "events": []
+    },
+    "tvc": "te6ccgECEQEAAhEAAQHAAQEFoTQBU2SyHgICAgECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8AA..."
+}

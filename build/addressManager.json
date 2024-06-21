@@ -1,0 +1,35 @@
+{
+    "abi": {
+        "ABI version": 2,
+        "header": ["time", "expire"],
+        "functions": [
+            {
+                "name": "constructor",
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "id", "type": "int"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "setAddress",
+                "inputs": [
+                    {"name": "name", "type": "string"},
+                    {"name": "addr", "type": "address"}
+                ],
+                "outputs": []
+            },
+            {
+                "name": "getState",
+                "inputs": [],
+                "outputs": [
+                    {"name": "name", "type": "string"},
+                    {"name": "addr", "type": "address"}
+                ]
+            }
+        ],
+        "data": [],
+        "events": []
+    },
+    "tvc": "te6ccgECEQEAAhEAAQHAAQEFoTQBU2SyHgICAgECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8AA..."
+}

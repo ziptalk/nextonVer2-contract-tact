@@ -1,0 +1,30 @@
+{
+    "projects": [
+        {
+            "name": "addressManager",
+            "path": "./contracts/AddressManager.tact",
+            "output": "./build/addressManager"
+          },
+          {
+            "name": "arbBotIntegration",
+            "path": "./contracts/ArbBotIntegration.tact",
+            "output": "./build/arbBotIntegration"
+          },
+          {
+            "name": "lrtLending",
+            "path": "./contracts/LRTLending.tact",
+            "output": "./build/lrtLending"
+          },
+          {
+            "name": "nftManagement",
+            "path": "./contracts/NFTManagement.tact",
+            "output": "./build/nftManagement"
+          },
+          {
+            "name": "tonHandler",
+            "path": "./contracts/TonHandler.tact",
+            "output": "./build/tonHandler"
+          }
+    ]
+  }
+  

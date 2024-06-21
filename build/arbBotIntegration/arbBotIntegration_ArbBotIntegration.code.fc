@@ -1,0 +1,131 @@
+#pragma version =0.4.4;
+#pragma allow-post-modification;
+#pragma compute-asm-ltr;
+
+#include "arbBotIntegration_ArbBotIntegration.headers.fc";
+#include "arbBotIntegration_ArbBotIntegration.stdlib.fc";
+#include "arbBotIntegration_ArbBotIntegration.storage.fc";
+
+;;
+;; Contract ArbBotIntegration functions
+;;
+
+(slice, slice, int, int, int) $ArbBotIntegration$_contract_init(slice $owner, int $id) impure inline_ref {
+    var (($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id)) = (null(), null(), null(), null(), null());
+    $self'owner = $owner;
+    $self'id = $id;
+    $self'user = $owner;
+    $self'stTONAmount = 0;
+    $self'usdtAmount = 0;
+    return ($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id);
+}
+
+((slice, slice, int, int, int), (slice, int, int)) $ArbBotIntegration$_fun_state((slice, slice, int, int, int) $self) impure inline_ref {
+    var (($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id)) = $self;
+    return (($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id), $AccountState$_constructor_user_stTONAmount_usdtAmount($self'user, $self'stTONAmount, $self'usdtAmount));
+}
+
+;;
+;; Receivers of a Contract ArbBotIntegration
+;;
+
+(((slice, slice, int, int, int)), ()) $ArbBotIntegration$_internal_binary_SetAccount((slice, slice, int, int, int) $self, (slice, int, int) $msg) impure inline {
+    var ($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id) = $self;
+    var ($msg'user, $msg'stTONAmount, $msg'usdtAmount) = $msg;
+    throw_unless(24861, ( __tact_slice_eq_bits($self'owner, __tact_context_get_sender()) ));
+    $self'user = $msg'user;
+    $self'stTONAmount = $msg'stTONAmount;
+    $self'usdtAmount = $msg'usdtAmount;
+    return (($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id), ());
+}
+
+(((slice, slice, int, int, int)), ()) $ArbBotIntegration$_internal_binary_Deploy((slice, slice, int, int, int) $self, (int) $deploy) impure inline {
+    var ($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id) = $self;
+    var ($deploy'queryId) = $deploy;
+    ($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id)~$ArbBotIntegration$_fun_notify($DeployOk$_store_cell($DeployOk$_constructor_queryId($deploy'queryId)));
+    return (($self'owner, $self'user, $self'stTONAmount, $self'usdtAmount, $self'id), ());
+}
+
+;;
+;; Get methods of a Contract ArbBotIntegration
+;;
+
+_ %state() method_id(77589) {
+    var self = $ArbBotIntegration$_contract_load();
+    var res = self~$ArbBotIntegration$_fun_state();
+    return $AccountState$_to_external(res);
+}
+
+_ supported_interfaces() method_id {
+    return (
+        "org.ton.introspection.v0"H >> 128,
+        "org.ton.abi.ipfs.v0"H >> 128,
+        "org.ton.deploy.lazy.v0"H >> 128,
+        "org.ton.chain.workchain.v0"H >> 128
+    );
+}
+
+_ get_abi_ipfs() method_id {
+    return "ipfs://QmUZUq7k4yi8wFNZB6WMMCdhud6rggxsdx6LbuGG4wPuHL";
+}
+
+_ lazy_deployment_completed() method_id {
+    return get_data().begin_parse().load_int(1);
+}
+
+;;
+;; Routing of a Contract ArbBotIntegration
+;;
+
+((slice, slice, int, int, int), int) $ArbBotIntegration$_contract_router_internal((slice, slice, int, int, int) self, int msg_bounced, slice in_msg) impure inline_ref {
+    ;; Handle bounced messages
+    if (msg_bounced) {
+        return (self, true);
+    }
+    
+    ;; Parse incoming message
+    int op = 0;
+    if (slice_bits(in_msg) >= 32) {
+        op = in_msg.preload_uint(32);
+    }
+    
+    
+    ;; Receive SetAccount message
+    if (op == 964717121) {
+        var msg = in_msg~$SetAccount$_load();
+        self~$ArbBotIntegration$_internal_binary_SetAccount(msg);
+        return (self, true);
+    }
+    
+    ;; Receive Deploy message
+    if (op == 2490013878) {
+        var msg = in_msg~$Deploy$_load();
+        self~$ArbBotIntegration$_internal_binary_Deploy(msg);
+        return (self, true);
+    }
+    
+    return (self, false);
+}
+
+() recv_internal(int msg_value, cell in_msg_cell, slice in_msg) impure {
+    
+    ;; Context
+    var cs = in_msg_cell.begin_parse();
+    var msg_flags = cs~load_uint(4);
+    var msg_bounced = -(msg_flags & 1);
+    slice msg_sender_addr = __tact_verify_address(cs~load_msg_addr());
+    __tact_context = (msg_bounced, msg_sender_addr, msg_value, cs);
+    __tact_context_sender = msg_sender_addr;
+    
+    ;; Load contract data
+    var self = $ArbBotIntegration$_contract_load();
+    
+    ;; Handle operation
+    int handled = self~$ArbBotIntegration$_contract_router_internal(msg_bounced, in_msg);
+    
+    ;; Throw if not handled
+    throw_unless(130, handled);
+    
+    ;; Persist state
+    $ArbBotIntegration$_contract_store(self);
+}
